@@ -63,7 +63,7 @@ rlist_c <- function(
 #'   "fa-solid fa-minus"="Minus",
 #'   "fa-solid fa-plus"="Plus"
 #' )))
-format_fa_list <- function(.x, .bullet_col=NULL, .pad_left="1.75em"){
+format_fa_list <- function(.x, .bullet_col=NULL, .pad_left="1.5em"){
   htmltools::HTML(rlist_c(
     .x=.x,
     .fn_leaf_names=\(.x, .n){
@@ -115,4 +115,39 @@ format_nd_toc <- function(.x){
     ),
     tags$div(id="page-toc-spacer", class="d-none d-xl-block")
   )
+}
+
+#' fa_list
+#'
+#' @param ... a named list
+#' @param .base_bullet_class a named list
+#'
+#' @return a HTML string
+#' @export
+#'
+#' @examples
+#' as.character(fa_list(
+#'   "fa-solid fa-minus"="Minus",
+#'   "fa-solid fa-plus"="Plus"
+#' ))
+fa_list <- function(..., .base_bullet_class=""){
+  checkmate::assert_character(.base_bullet_class, len=1, any.missing=FALSE)
+  .dots <- list(...)
+  htmltools::HTML(rlist_c(
+    .x=.dots,
+    .fn_leaf_names=\(.x, .n){
+      .bullet <- dplyr::if_else(
+        condition=!stringi::stri_isempty(.n),
+        true=stringi::stri_c("<i class='", .n, "'></i>"),
+        false="-"
+      )
+      stringi::stri_c("<span class='fa-li'>", .bullet, "</span>", .x)
+    },
+    .fn_node_wrap=\(.x){
+      stringi::stri_c(
+        "<ul class='fa-ul' style='margin-left: var(--fa-li-margin, 1.5em);'>",
+        .x, "</ul>"
+      )
+    }
+  ))
 }

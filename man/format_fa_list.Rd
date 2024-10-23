@@ -4,7 +4,7 @@
 \alias{format_fa_list}
 \title{format_fa_list}
 \usage{
-format_fa_list(.x, .bullet_col = NULL, .pad_left = "1.75em")
+format_fa_list(.x, .bullet_col = NULL, .pad_left = "1.5em")
 }
 \arguments{
 \item{.x}{a named list}
